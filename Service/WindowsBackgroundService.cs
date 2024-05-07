@@ -1,10 +1,10 @@
-using App.WindowsService_controller;
+using App.WindowsService;
 using Microsoft.Extensions.Logging;
 
-namespace App.WindowsService_controller;
+namespace App.WindowsService;
 
 public sealed class WindowsBackgroundService(
-    Controller controller,
+    JokeService jokeService,
     ILogger<WindowsBackgroundService> logger) : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -15,7 +15,7 @@ public sealed class WindowsBackgroundService(
             {
                 if (logger.IsEnabled(LogLevel.Information))
                 {
-                    string joke = controller.CheckServiceNewVersion();
+                    string joke = jokeService.GetJoke();
                     logger.LogWarning("{Joke}", joke);
                 }
                 await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
