@@ -1,0 +1,6 @@
+﻿<Project Sdk="WixToolset.Sdk/5.0.0">
+  <ItemGroup>
+    <ProjectReference Include="..\ServiceController\ServiceController.csproj" />
+    <ProjectReference Include="..\Service\Service.csproj" />
+  </ItemGroup>
+</Project>

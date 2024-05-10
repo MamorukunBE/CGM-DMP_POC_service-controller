@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Include>
+	<?define ServiceId = "3783A353-047F-4767-9C1A-567280AB3453" ?>
+	<?define ServiceControllerId = "4ADA6A42-1AC3-417C-92D0-F87D4D6D584B" ?>
+</Include>

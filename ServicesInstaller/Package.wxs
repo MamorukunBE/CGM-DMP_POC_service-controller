@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Define the variables in "$(var.*) expressions" -->
+<?include ../config.xml ?>
+<?define ServiceDisplayName = ".CGM Service" ?>
+<?define ServiceDescription = "A CGM jokes service" ?>
+<?define ServiceProjectName = "$(var.Service.ProjectName)" ?>
+<?define ServiceControllerDisplayName = ".CGM Service Controller" ?>
+<?define ServiceControllerDescription = "A CGM service controller" ?>
+<?define ServiceControllerProjectName = "$(var.ServiceController.ProjectName)" ?>
+<?define Manufacturer = "CGM" ?>
+<?define Version = "1.0.0.0" ?>
+<?define UpgradeCode = "9ED3FF33-8718-444E-B44B-69A2344B7E98" ?>
+
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+	<Package Name="$(ServiceDisplayName)"
+             Manufacturer="$(Manufacturer)"
+             Version="$(Version)"
+             UpgradeCode="$(var.UpgradeCode)"
+             Compressed="true">
+
+		<!-- Allow upgrades and prevent downgrades -->
+		<MajorUpgrade DowngradeErrorMessage="A later version of [ProductName] is already installed. Setup will now exit." />
+
+		<!-- Define the directory structure -->
+		<StandardDirectory Id="TARGETDIR">
+			<Directory Id="ProgramFiles64Folder">
+
+				<!-- Create a folder inside program files -->
+				<Directory Id="ROOTDIRECTORY" Name="$(var.Manufacturer)">
+
+					<!-- Create a folder within the parent folder given the name -->
+					<Directory Id="INSTALLFOLDER" Name="Services" />
+				</Directory>
+			</Directory>
+		</StandardDirectory>
+
+		<!-- Tell WiX to install the files -->
+		<Feature Id="Service" Title="Service Setup" Level="1">
+			<!-- The files inside this DirectoryRef are linked to
+             the Service directory via INSTALLFOLDER -->
+			
+			<!-- Create a single component which is the Service.exe file -->
+			<Component Id="ServiceExecutable" Bitness="always64">
+
+				<!-- Copies the Service.exe file using the
+                     project reference preprocessor variables -->
+				<File Id="Service.exe"
+                      Source="$(var.Service.TargetDir)publish\$(ServiceProjectName).exe"
+                      KeyPath="true" />
+
+				<!-- Remove all files from the INSTALLFOLDER on uninstall -->
+				<RemoveFile Id="uninstallService" Name="*.*" On="both" />
+
+				<!-- Tell WiX to install the Service -->
+				<ServiceInstall Id="ServiceInstaller"
+                                Type="ownProcess"
+                                Name="$(ServiceId)"
+                                DisplayName="$(ServiceDisplayName)"
+                                Description="$(ServiceDescription)"
+                                Start="auto"
+                                ErrorControl="normal" />
+
+				<!-- Tell WiX to start the Service -->
+				<ServiceControl Id="StartService"
+                                Start="install"
+                                Stop="both"
+                                Remove="uninstall"
+                                Name="$(ServiceId)"
+                                Wait="true" />
+			</Component>
+		</Feature>
+
+		<!-- Create a single component which is the ServiceController.exe file -->
+		<Feature Id="ServiceController" Title="Service Setup" Level="1">
+			<Component Id="ServiceControllerExecutable" Bitness="always64">
+				
+				<!-- Copies the ServiceController.exe file using the
+						project reference preprocessor variables -->
+				<File Id="ServiceController.exe"
+						Source="$(var.ServiceController.TargetDir)publish\$(ServiceControllerProjectName).exe"
+						KeyPath="true" />
+
+				<!-- Remove all files from the INSTALLFOLDER on uninstall -->
+				<RemoveFile Id="uninstallServiceController" Name="*.*" On="both" />
+
+
+				<!-- Tell WiX to install the Service -->
+				<ServiceInstall Id="ServiceControllerInstaller"
+                                Type="ownProcess"
+                                Name="$(ServiceControllerId)"
+                                DisplayName="$(ServiceControllerDisplayName)"
+                                Description="$(ServiceControllerDescription)"
+                                Start="auto"
+                                ErrorControl="normal" />
+
+				<!-- Tell WiX to start the Service -->
+				<ServiceControl Id="StartServiceController"
+                                Start="install"
+                                Stop="both"
+                                Remove="uninstall"
+                                Name="$(ServiceControllerId)"
+                                Wait="true" />
+			</Component>
+		</Feature>
+
+	</Package>
+</Wix>

@@ -1,4 +1,5 @@
 using App.WindowsService_controller;
+using constants;
 using Microsoft.Extensions.Logging;
 
 namespace App.WindowsService_controller;
@@ -11,11 +12,12 @@ public sealed class WindowsBackgroundService(
     {
         try
         {
+            string serviceId = Tools.GetServiceName("Service");
             while (!stoppingToken.IsCancellationRequested)
             {
                 if (logger.IsEnabled(LogLevel.Information))
                 {
-                    string joke = controller.CheckServiceNewVersion();
+                    string joke = controller.CheckServiceNewVersion(serviceId);
                     logger.LogWarning("{Joke}", joke);
                 }
                 await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
