@@ -9,7 +9,7 @@
 	  <PublishSingleFile Condition="'$(Configuration)' == 'Release'">true</PublishSingleFile>
 	  <RuntimeIdentifier>win-x64</RuntimeIdentifier>
 	  <PlatformTarget>x64</PlatformTarget>
-	  <Version>1.2.3</Version>
+	  <Version>1.2.5</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,6 +22,6 @@
   </ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-	    <Exec Command="dotnet publish" Condition="'$(BuildingInsideVisualStudio)' == 'true'" />
+	    <Exec Command="if $(ConfigurationName) == Release call &quot;$(SolutionDir)PublishAndExtractVersion.bat&quot; &quot;$(ProjectPath)&quot; &quot;$(ProjectDir)$(PublishDir)$(TargetName).exe&quot; &quot;$(SolutionDir)&quot;&#xD;&#xA;" Condition="'$(BuildingInsideVisualStudio)' == 'true'" />
     </Target>
 </Project>

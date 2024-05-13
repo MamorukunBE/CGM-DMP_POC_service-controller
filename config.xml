@@ -1,5 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Include>
+	
 	<?define ServiceId = "3783A353-047F-4767-9C1A-567280AB3453" ?>
+	<?define ServiceDisplayName = ".CGM Service" ?>
+	<?define ServiceDescription = "A CGM jokes service" ?>
+	<?define ServiceProjectName = "$(var.Service.ProjectName)" ?>
+
 	<?define ServiceControllerId = "4ADA6A42-1AC3-417C-92D0-F87D4D6D584B" ?>
+	<?define ServiceControllerDisplayName = ".CGM Service Controller" ?>
+	<?define ServiceControllerDescription = "A CGM service controller" ?>
+	<?define ServiceControllerProjectName = "$(var.ServiceController.ProjectName)" ?>
+	
+	<?define Manufacturer = "CGM" ?>
+	<?define Version = "1.0.0.0" ?>
+	<?define UpgradeCode = "9ED3FF33-8718-444E-B44B-69A2344B7E98" ?>
+
+	<?define RepositoryDirectory = "c:\xampp\htdocs\" ?>
+
 </Include>

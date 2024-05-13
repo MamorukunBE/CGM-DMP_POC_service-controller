@@ -14,7 +14,7 @@ public sealed class JokeService
         Joke joke = _jokes.ElementAt(
             Random.Shared.Next(_jokes.Count));
 
-        return $"{joke.Setup}{Environment.NewLine}{joke.Punchline}";
+        return $"(UPDATED again) {joke.Setup}{Environment.NewLine}{joke.Punchline}";
     }
 
     // Programming jokes borrowed from:

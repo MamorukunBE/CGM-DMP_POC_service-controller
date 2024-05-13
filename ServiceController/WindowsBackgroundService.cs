@@ -15,11 +15,9 @@ public sealed class WindowsBackgroundService(
             string serviceId = Tools.GetServiceName("Service");
             while (!stoppingToken.IsCancellationRequested)
             {
+                string joke = await controller.ProcessServiceUpdateAsync(serviceId);
                 if (logger.IsEnabled(LogLevel.Information))
-                {
-                    string joke = controller.CheckServiceNewVersion(serviceId);
                     logger.LogWarning("{Joke}", joke);
-                }
                 await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
             }
         }
